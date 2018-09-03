@@ -31,45 +31,56 @@ const SearchArea = (props) =>
       </form>
     </div>
   )
-const VehicleTableRow = (props) =>
+const VehicleTableRow = ({ plateNumber }) =>
   (
     <Row>
-      <span style={{ marginRight: '20%', borderStyle: 'solid' }}> VFS733 </span>
-      <button> Out </button>
+      <span style={{ marginRight: '20%', borderStyle: 'solid' }}>{plateNumber}</span>
+      <button>Out</button>
     </Row>
   )
 
-const VehicleColumn = ({ title }) =>
+const VehicleColumn = ({ title, vehicles }) =>
   (
     <Col sm={6} md={4}>
       <div style={{ backgroundColor: '#CCCCFF', width: '100%' }} className='text-center'> {title} </div>
-      <VehicleTableRow />
-      <VehicleTableRow />
+      {vehicles.map((v, i) => <VehicleTableRow key={i} {...v} />)}
     </Col>
   )
-const App = () => {
-  return (
-    <div className='App container'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <h1 className='App-title'>Vehicle Counter Prototype V1</h1>
-      </header>
-      <div className='App-intro'>
-        <VehicleInputArea />
-        <SearchArea />
-        <br />
-        <div>
-          <Grid>
-            <Row style={{ marginLeft: '5%', marginRight: '5%' }}>
-              <VehicleColumn title={'Guest'} />
-              <VehicleColumn title={'Drop Off'} />
-              <VehicleColumn title={'Parking'} />
-            </Row>
-          </Grid>
+
+class App extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = { vehicles: [
+      { plateNumber: 'VFS722', type: 'guest' },
+      { plateNumber: 'VFS733', type: 'dropoff' },
+      { plateNumber: 'CEH427', type: 'parking' }
+    ] }
+  }
+
+  render () {
+    return (
+      <div className='App container'>
+        <header className='App-header'>
+          <img src={logo} className='App-logo' alt='logo' />
+          <h1 className='App-title'>Vehicle Counter Prototype V1</h1>
+        </header>
+        <div className='App-intro'>
+          <VehicleInputArea />
+          <SearchArea />
+          <br />
+          <div>
+            <Grid>
+              <Row style={{ marginLeft: '5%', marginRight: '5%' }}>
+                <VehicleColumn title={'Guest'} vehicles={this.state.vehicles.filter(i => i.type === 'guest')} />
+                <VehicleColumn title={'Drop Off'} vehicles={this.state.vehicles.filter(i => i.type === 'dropoff')} />
+                <VehicleColumn title={'Parking'} vehicles={this.state.vehicles.filter(i => i.type === 'parking')} />
+              </Row>
+            </Grid>
+          </div>
         </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default App
