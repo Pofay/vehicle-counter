@@ -1,26 +1,46 @@
 import React from 'react'
-import { Col, Grid, Row, Button, DropdownButton, MenuItem } from 'react-bootstrap'
+import { Col, Grid, Row, Button } from 'react-bootstrap'
 import logo from './logo-cit.jpeg'
 import './App.css'
 
-const VehicleInputArea = (props) =>
-  (
-    <div style={{ marginLeft: '5%', marginBottom: '2%' }} className='text-justify'>
-      <form>
-        <label>Plate Number:</label>
-        <input id='new-platenumber' />
-        <div>
-          <label> Vehicle Type:</label>
-          <DropdownButton title={'Vehicle Types'} id='vehicle-type'>
-            <MenuItem eventKey='Guest'>Guest</MenuItem>
-            <MenuItem eventKey='Drop Off'>Drop Off</MenuItem>
-            <MenuItem eventKey='Parking'>Parking</MenuItem>
-          </DropdownButton>
-        </div>
-        <Button type='submit'>Add Vehicle</Button>
-      </form>
-    </div>
-  )
+class VehicleInputArea extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = { plateNumber: '', type: 'guest' }
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleSubmit (event) {
+    event.preventDefault()
+    this.props.onSubmit({ plateNumber: this.state.plateNumber, type: this.state.type })
+  }
+
+  render () {
+    return (
+      <div style={{ marginLeft: '5%', marginBottom: '2%' }} className='text-justify'>
+        <form onSubmit={this.handleSubmit}>
+          <label>Plate Number:</label>
+          <input type='text'
+            id='new-platenumber'
+            value={this.state.plateNumber}
+            onChange={(event) => this.setState({ plateNumber: event.target.value })}
+            required />
+          <div>
+            <label> Vehicle Type:</label>
+            <select title={'Vehicle Types'}
+              id='vehicle-type'
+              onChange={(event) => this.setState({ type: event.target.value })}>
+              <option value='guest'>Guest</option>
+              <option value='dropoff'>Drop Off</option>
+              <option value='parking'>Parking</option>
+            </select>
+          </div>
+          <Button type='submit'>Add Vehicle</Button>
+        </form>
+      </div>
+    )
+  }
+}
 
 const SearchArea = (props) =>
   (
@@ -31,19 +51,19 @@ const SearchArea = (props) =>
       </form>
     </div>
   )
-const VehicleTableRow = ({ plateNumber }) =>
+const VehicleTableRow = ({ removeVehicle, plateNumber }) =>
   (
     <Row>
       <span style={{ marginRight: '20%', borderStyle: 'solid' }}>{plateNumber}</span>
-      <button>Out</button>
+      <button onClick={() => removeVehicle(plateNumber)}>Out</button>
     </Row>
   )
 
-const VehicleColumn = ({ title, vehicles }) =>
+const VehicleColumn = ({ removeVehicle, title, vehicles }) =>
   (
     <Col sm={6} md={4}>
       <div style={{ backgroundColor: '#CCCCFF', width: '100%' }} className='text-center'> {title} </div>
-      {vehicles.map((v, i) => <VehicleTableRow key={i} {...v} />)}
+      {vehicles.map((v, i) => <VehicleTableRow removeVehicle={removeVehicle} key={i} {...v} />)}
     </Col>
   )
 
@@ -55,6 +75,21 @@ class App extends React.Component {
       { plateNumber: 'VFS733', type: 'dropoff' },
       { plateNumber: 'CEH427', type: 'parking' }
     ] }
+    this.addVehicle = this.addVehicle.bind(this)
+    this.removeVehicle = this.removeVehicle.bind(this)
+  }
+
+  addVehicle (vehicleInfo) {
+    this.setState((prevState) => ({
+      vehicles: prevState.vehicles.concat(vehicleInfo)
+    }))
+  }
+
+  removeVehicle (plateNumber) {
+    console.log(plateNumber)
+    this.setState((prevState) => ({
+      vehicles: prevState.vehicles.filter(v => v.plateNumber !== plateNumber)
+    }))
   }
 
   render () {
@@ -65,15 +100,15 @@ class App extends React.Component {
           <h1 className='App-title'>Vehicle Counter Prototype V1</h1>
         </header>
         <div className='App-intro'>
-          <VehicleInputArea />
+          <VehicleInputArea onSubmit={this.addVehicle} />
           <SearchArea />
           <br />
           <div>
             <Grid>
               <Row style={{ marginLeft: '5%', marginRight: '5%' }}>
-                <VehicleColumn title={'Guest'} vehicles={this.state.vehicles.filter(i => i.type === 'guest')} />
-                <VehicleColumn title={'Drop Off'} vehicles={this.state.vehicles.filter(i => i.type === 'dropoff')} />
-                <VehicleColumn title={'Parking'} vehicles={this.state.vehicles.filter(i => i.type === 'parking')} />
+                <VehicleColumn removeVehicle={this.removeVehicle} title={'Guest'} vehicles={this.state.vehicles.filter(i => i.type === 'guest')} />
+                <VehicleColumn removeVehicle={this.removeVehicle} title={'Drop Off'} vehicles={this.state.vehicles.filter(i => i.type === 'dropoff')} />
+                <VehicleColumn removeVehicle={this.removeVehicle} title={'Parking'} vehicles={this.state.vehicles.filter(i => i.type === 'parking')} />
               </Row>
             </Grid>
           </div>
