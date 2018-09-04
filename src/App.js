@@ -42,15 +42,20 @@ class VehicleInputArea extends React.Component {
   }
 }
 
-const SearchArea = (props) =>
-  (
-    <div>
-      <form>
+class SearchArea extends React.Component {
+  constructor (props) {
+    super(props)
+  }
+
+  render () {
+    return (
+      <div>
         <label style={{ marginRight: '5px' }}> Search Plate Number: </label>
-        <input id='search-platenumber' />
-      </form>
-    </div>
-  )
+        <input onChange={(event) => this.props.showMatching(event.target.value)}id='search-platenumber' />
+      </div>
+    )
+  }
+}
 const VehicleTableRow = ({ removeVehicle, plateNumber }) =>
   (
     <Row>
@@ -74,9 +79,11 @@ class App extends React.Component {
       { plateNumber: 'VFS722', type: 'guest' },
       { plateNumber: 'VFS733', type: 'dropoff' },
       { plateNumber: 'CEH427', type: 'parking' }
-    ] }
+    ],
+    queryString: '' }
     this.addVehicle = this.addVehicle.bind(this)
     this.removeVehicle = this.removeVehicle.bind(this)
+    this.showMatching = this.showMatching.bind(this)
   }
 
   addVehicle (vehicleInfo) {
@@ -92,6 +99,11 @@ class App extends React.Component {
     }))
   }
 
+  showMatching (plateNumber) {
+    this.setState({ queryString: plateNumber })
+    console.log(this.state.queryString)
+  }
+
   render () {
     return (
       <div className='App container'>
@@ -101,14 +113,17 @@ class App extends React.Component {
         </header>
         <div className='App-intro'>
           <VehicleInputArea onSubmit={this.addVehicle} />
-          <SearchArea />
+          <SearchArea showMatching={this.showMatching} />
           <br />
           <div>
             <Grid>
               <Row style={{ marginLeft: '5%', marginRight: '5%' }}>
-                <VehicleColumn removeVehicle={this.removeVehicle} title={'Guest'} vehicles={this.state.vehicles.filter(i => i.type === 'guest')} />
-                <VehicleColumn removeVehicle={this.removeVehicle} title={'Drop Off'} vehicles={this.state.vehicles.filter(i => i.type === 'dropoff')} />
-                <VehicleColumn removeVehicle={this.removeVehicle} title={'Parking'} vehicles={this.state.vehicles.filter(i => i.type === 'parking')} />
+                <VehicleColumn removeVehicle={this.removeVehicle} title={'Guest'}
+                  vehicles={this.state.vehicles.filter(i => i.type === 'guest')} />
+                <VehicleColumn removeVehicle={this.removeVehicle} title={'Drop Off'}
+                  vehicles={this.state.vehicles.filter(i => i.type === 'dropoff')} />
+                <VehicleColumn removeVehicle={this.removeVehicle} title={'Parking'}
+                  vehicles={this.state.vehicles.filter(i => i.type === 'parking')} />
               </Row>
             </Grid>
           </div>
