@@ -13,6 +13,7 @@ class VehicleInputArea extends React.Component {
   handleSubmit (event) {
     event.preventDefault()
     this.props.onSubmit({ plateNumber: this.state.plateNumber, type: this.state.type })
+    this.setState({ plateNumber: '', type: 'guest' })
   }
 
   render () {
@@ -29,6 +30,7 @@ class VehicleInputArea extends React.Component {
             <label> Vehicle Type:</label>
             <select title={'Vehicle Types'}
               id='vehicle-type'
+              value={this.state.type}
               onChange={(event) => this.setState({ type: event.target.value })}>
               <option value='guest'>Guest</option>
               <option value='dropoff'>Drop Off</option>
