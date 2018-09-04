@@ -42,20 +42,14 @@ class VehicleInputArea extends React.Component {
   }
 }
 
-class SearchArea extends React.Component {
-  constructor (props) {
-    super(props)
-  }
+const SearchArea = (props) =>
+  (
+    <div>
+      <label style={{ marginRight: '5px' }}> Search Plate Number: </label>
+      <input onChange={(event) => props.showMatching(event.target.value)}id='search-platenumber' />
+    </div>
+  )
 
-  render () {
-    return (
-      <div>
-        <label style={{ marginRight: '5px' }}> Search Plate Number: </label>
-        <input onChange={(event) => this.props.showMatching(event.target.value)}id='search-platenumber' />
-      </div>
-    )
-  }
-}
 const VehicleTableRow = ({ removeVehicle, plateNumber }) =>
   (
     <Row>
@@ -101,7 +95,6 @@ class App extends React.Component {
 
   showMatching (plateNumber) {
     this.setState({ queryString: plateNumber })
-    console.log(this.state.queryString)
   }
 
   render () {
@@ -121,6 +114,12 @@ class App extends React.Component {
                 <VehicleColumn removeVehicle={this.removeVehicle} title={'Guest'}
                   vehicles={this.state.queryString.length === 0 ? this.state.vehicles.filter(i => i.type === 'guest')
                     : this.state.vehicles.filter(i => i.type === 'guest').filter(i => i.plateNumber.includes(this.state.queryString))} />
+                <VehicleColumn removeVehicle={this.removeVehicle} title={'Drop Off'}
+                  vehicles={this.state.queryString.length === 0 ? this.state.vehicles.filter(i => i.type === 'dropoff')
+                    : this.state.vehicles.filter(i => i.type === 'dropoff').filter(i => i.plateNumber.includes(this.state.queryString))} />
+                <VehicleColumn removeVehicle={this.removeVehicle} title={'Parking'}
+                  vehicles={this.state.queryString.length === 0 ? this.state.vehicles.filter(i => i.type === 'parking')
+                    : this.state.vehicles.filter(i => i.type === 'parking').filter(i => i.plateNumber.includes(this.state.queryString))} />
               </Row>
             </Grid>
           </div>
