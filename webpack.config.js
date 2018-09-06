@@ -1,6 +1,6 @@
 const path = require('path')
 
-const HtmlWebpackPlugin= require ('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: './src/index.html',
   filename: 'index.html',
@@ -17,20 +17,21 @@ module.exports = {
     rules: [
       { test: /\.css$/,
         use: [
-          {loader: "style-loader" },
-          {loader: "css-loader" }
+          { loader: 'style-loader' },
+          { loader: 'css-loader' }
         ]
       },
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: "babel-loader"
+        use: 'babel-loader'
       },
       {
         test: /\.jsx?$/,
         exlude: /node_modules/,
-        use: "babel-loader"
+        use: 'babel-loader'
       }
     ]
-  }
+  },
+  plugins: [HtmlWebpackPluginConfig]
 }
