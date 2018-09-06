@@ -1,6 +1,6 @@
 import React from 'react'
 import { Col, Grid, Row, Button } from 'react-bootstrap'
-import logo from './logo-cit.jpeg'
+import logo from '../images/logo-cit.jpeg'
 import './App.css'
 
 class VehicleInputArea extends React.Component {
