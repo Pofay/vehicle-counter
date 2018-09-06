@@ -20,10 +20,7 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
     "babel-loader": "^8.0.2",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
     "eslint": "^5.4.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-config-standard-react": "^7.0.2",
