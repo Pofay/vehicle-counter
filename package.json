@@ -11,8 +11,7 @@
     "react-bootstrap": "^0.32.3",
     "react-dom": "^16.4.2",
     "react-scripts": "1.1.5",
-    "webpack": "^4.17.2",
-    "webpack-dev-server": "^3.1.7"
+    "webpack": "^4.17.2"
   },
   "scripts": {
     "start": "babel-node app.js",
