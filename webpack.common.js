@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugun')
 
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: './public/index.html',
@@ -13,6 +14,10 @@ module.exports = {
     path: path.resolve('dist'),
     filename: 'bundle.js'
   },
+  plugins: [
+    new HtmlWebpackPluginConfig(),
+    new CleanWebpackPlugin(['dist'])
+  ],
   module: {
     rules: [
       { test: /\.css$/,
@@ -42,6 +47,5 @@ module.exports = {
         }]
       }
     ]
-  },
-  plugins: [HtmlWebpackPluginConfig]
+  }
 }
