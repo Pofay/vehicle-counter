@@ -1,7 +1,7 @@
 import path from 'path'
 import express from 'express'
 import webpack from 'webpack'
-import config from './webpack.dev'
+import config from '../webpack.dev'
 import open from 'open'
 
 const port = 3000
@@ -16,7 +16,7 @@ app.use(require('webpack-dev-middleware')(compiler, {
 app.use(require('webpack-hot-middleware')(compiler))
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './src/index.html'))
+  res.sendFile(path.join(__dirname, '../src/index.html'))
 })
 
 app.listen(port, (err) => {
