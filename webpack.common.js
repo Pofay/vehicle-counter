@@ -37,7 +37,7 @@ module.exports = {
         use: 'babel-loader'
       },
       {
-        test: /\.(png|jp(e*)g|svg)$/,
+        test: /\.(png|jp(e*)g|svg|ico)$/,
         use: [{
           loader: 'url-loader',
           options: {
