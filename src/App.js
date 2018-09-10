@@ -1,10 +1,9 @@
 import React from 'react'
-import { Table, Col, Grid, Row, Button } from 'react-bootstrap'
+import { ToggleButtonGroup, ToggleButton, ButtonToolbar, ControlLabel, FormControl, Table, Grid, Row, Button } from 'react-bootstrap'
 import logo from '../images/logo-cit.jpeg'
 import './App.css'
-import axios from 'axios'
 
-class VehicleInputArea extends React.Component {
+class VehicleInputForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = { plateNumber: '', type: 'guest' }
@@ -19,26 +18,30 @@ class VehicleInputArea extends React.Component {
 
   render () {
     return (
-      <div style={{ marginLeft: '5%', marginBottom: '2%' }} className='text-justify'>
+      <div style={{ marginLeft: '2%', marginTop: '2%', marginBottom: '2%' }} className='text-justify'>
         <form onSubmit={this.handleSubmit}>
-          <label>Plate Number:</label>
-          <input type='text'
+          <ControlLabel>Plate Number:</ControlLabel>
+          <FormControl
             id='new-platenumber'
+            placeholder='Enter Platenumber'
+            type='text'
             value={this.state.plateNumber}
             onChange={(event) => this.setState({ plateNumber: event.target.value })}
             required />
-          <div>
-            <label> Vehicle Type:</label>
-            <select title={'Vehicle Types'}
-              id='vehicle-type'
-              value={this.state.type}
-              onChange={(event) => this.setState({ type: event.target.value })}>
-              <option value='guest'>Guest</option>
-              <option value='dropoff'>Drop Off</option>
-              <option value='parking'>Parking</option>
-            </select>
-          </div>
-          <Button type='submit'>Add Vehicle</Button>
+          <ControlLabel style={{ paddingBottom: '0.5%' }}> Vehicle Type: </ControlLabel>
+          <ButtonToolbar onChange={(event) => this.setState({ type: event.target.value })}>
+            <ToggleButtonGroup
+              type='radio'
+              name='vehicle-types'
+              style={{ display: 'block' }}
+              defaultValue={this.state.type}
+            >
+              <ToggleButton value={'guest'}>Guest</ToggleButton>
+              <ToggleButton value={'parking'}>Parking</ToggleButton>
+              <ToggleButton value={'dropoff'}>Drop Off</ToggleButton>
+            </ToggleButtonGroup>
+          </ButtonToolbar>
+          <Button style={{ marginTop: '2%' }} type='submit'>Add Vehicle</Button>
         </form>
       </div>
     )
@@ -117,7 +120,7 @@ class App extends React.Component {
           <h1 className='App-title'>Vehicle Counter Prototype V1</h1>
         </header>
         <div className='App-intro'>
-          <VehicleInputArea onSubmit={this.addVehicle} />
+          <VehicleInputForm onSubmit={this.addVehicle} />
           <SearchArea showMatching={this.showMatching} />
           <br />
           <div>
