@@ -1,7 +1,8 @@
 import React from 'react'
-import { Col, Grid, Row, Button } from 'react-bootstrap'
+import { Table, Col, Grid, Row, Button } from 'react-bootstrap'
 import logo from '../images/logo-cit.jpeg'
 import './App.css'
+import axios from 'axios'
 
 class VehicleInputArea extends React.Component {
   constructor (props) {
@@ -54,18 +55,25 @@ const SearchArea = (props) =>
 
 const VehicleTableRow = ({ removeVehicle, plateNumber }) =>
   (
-    <Row>
-      <span style={{ marginRight: '20%', borderStyle: 'solid' }}>{plateNumber}</span>
-      <button onClick={() => removeVehicle(plateNumber)}>Out</button>
-    </Row>
+    <tr>
+      <td>{plateNumber}</td>
+      <td><button onClick={() => removeVehicle(plateNumber)}>Out</button></td>
+    </tr>
   )
 
 const VehicleColumn = ({ removeVehicle, title, vehicles }) =>
   (
-    <Col sm={6} md={4}>
-      <div style={{ backgroundColor: '#CCCCFF', width: '100%' }} className='text-center'> {title} </div>
+    <Table responsive striped bordered hover>
+      <thead className='text-center'>{title}
+        <tr>
+          <th>Plate Number</th>
+          <th>Out</th>
+        </tr>
+      </thead>
+      <tbody>
       {vehicles.map((v, i) => <VehicleTableRow removeVehicle={removeVehicle} key={i} {...v} />)}
-    </Col>
+      </tbody>
+    </Table>
   )
 
 class App extends React.Component {
