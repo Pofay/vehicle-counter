@@ -123,15 +123,9 @@ class App extends React.Component {
           <div>
             <Grid>
               <Row style={{ marginLeft: '5%', marginRight: '5%' }}>
-                <VehicleTable removeVehicle={this.removeVehicle} title={'Guest'}
-                  vehicles={this.state.queryString.length === 0 ? this.state.vehicles.filter(i => i.type === 'guest')
-                    : this.state.vehicles.filter(i => i.type === 'guest').filter(i => i.plateNumber.includes(this.state.queryString))} />
-                <VehicleTable removeVehicle={this.removeVehicle} title={'Drop Off'}
-                  vehicles={this.state.queryString.length === 0 ? this.state.vehicles.filter(i => i.type === 'dropoff')
-                    : this.state.vehicles.filter(i => i.type === 'dropoff').filter(i => i.plateNumber.includes(this.state.queryString))} />
                 <VehicleTable removeVehicle={this.removeVehicle} title={'Parking'}
-                  vehicles={this.state.queryString.length === 0 ? this.state.vehicles.filter(i => i.type === 'parking')
-                    : this.state.vehicles.filter(i => i.type === 'parking').filter(i => i.plateNumber.includes(this.state.queryString))} />
+                  vehicles={this.state.queryString.length === 0 ? this.state.vehicles
+                    : this.state.vehicles.filter(i => i.plateNumber.includes(this.state.queryString))} />
               </Row>
             </Grid>
           </div>
