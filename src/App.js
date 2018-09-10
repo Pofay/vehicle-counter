@@ -53,10 +53,11 @@ const SearchArea = (props) =>
     </div>
   )
 
-const VehicleTableRow = ({ removeVehicle, plateNumber }) =>
+const VehicleTableRow = ({ removeVehicle, plateNumber, type }) =>
   (
     <tr>
       <td>{plateNumber}</td>
+      <td>{type}</td>
       <td><button onClick={() => removeVehicle(plateNumber)}>Out</button></td>
     </tr>
   )
@@ -67,6 +68,7 @@ const VehicleTable = ({ removeVehicle, title, vehicles }) =>
       <thead className='text-center'>
         <tr>
           <th>Plate Number</th>
+          <th>Vehicle Type</th>
           <th>Out</th>
         </tr>
       </thead>
