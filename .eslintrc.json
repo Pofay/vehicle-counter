@@ -1,4 +1,7 @@
 {
     "extends": ["standard", "standard-react"],
-    "env": "jest"
+    "env": {
+	    "jest": true,
+	    "node": true
+    }
 }

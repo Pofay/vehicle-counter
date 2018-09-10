@@ -61,17 +61,17 @@ const VehicleTableRow = ({ removeVehicle, plateNumber }) =>
     </tr>
   )
 
-const VehicleColumn = ({ removeVehicle, title, vehicles }) =>
+const VehicleTable = ({ removeVehicle, title, vehicles }) =>
   (
     <Table responsive striped bordered hover>
-      <thead className='text-center'>{title}
+      <thead className='text-center'>
         <tr>
           <th>Plate Number</th>
           <th>Out</th>
         </tr>
       </thead>
       <tbody>
-      {vehicles.map((v, i) => <VehicleTableRow removeVehicle={removeVehicle} key={i} {...v} />)}
+        {vehicles.map((v, i) => <VehicleTableRow removeVehicle={removeVehicle} key={i} {...v} />)}
       </tbody>
     </Table>
   )
@@ -121,13 +121,13 @@ class App extends React.Component {
           <div>
             <Grid>
               <Row style={{ marginLeft: '5%', marginRight: '5%' }}>
-                <VehicleColumn removeVehicle={this.removeVehicle} title={'Guest'}
+                <VehicleTable removeVehicle={this.removeVehicle} title={'Guest'}
                   vehicles={this.state.queryString.length === 0 ? this.state.vehicles.filter(i => i.type === 'guest')
                     : this.state.vehicles.filter(i => i.type === 'guest').filter(i => i.plateNumber.includes(this.state.queryString))} />
-                <VehicleColumn removeVehicle={this.removeVehicle} title={'Drop Off'}
+                <VehicleTable removeVehicle={this.removeVehicle} title={'Drop Off'}
                   vehicles={this.state.queryString.length === 0 ? this.state.vehicles.filter(i => i.type === 'dropoff')
                     : this.state.vehicles.filter(i => i.type === 'dropoff').filter(i => i.plateNumber.includes(this.state.queryString))} />
-                <VehicleColumn removeVehicle={this.removeVehicle} title={'Parking'}
+                <VehicleTable removeVehicle={this.removeVehicle} title={'Parking'}
                   vehicles={this.state.queryString.length === 0 ? this.state.vehicles.filter(i => i.type === 'parking')
                     : this.state.vehicles.filter(i => i.type === 'parking').filter(i => i.plateNumber.includes(this.state.queryString))} />
               </Row>
