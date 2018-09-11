@@ -72,7 +72,6 @@ const VehicleTable = ({ removeVehicle, title, vehicles }) =>
         <tr>
           <th>Plate Number</th>
           <th>Vehicle Type</th>
-          <th>Out</th>
         </tr>
       </thead>
       <tbody>
@@ -102,7 +101,6 @@ class App extends React.Component {
   }
 
   removeVehicle (plateNumber) {
-    console.log(plateNumber)
     this.setState((prevState) => ({
       vehicles: prevState.vehicles.filter(v => v.plateNumber !== plateNumber)
     }))
