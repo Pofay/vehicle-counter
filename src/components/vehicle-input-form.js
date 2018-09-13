@@ -28,13 +28,14 @@ class VehicleInputForm extends React.Component {
             required />
           <ControlLabel style={{ paddingBottom: '0.5%' }}> Vehicle Type: </ControlLabel>
           <ButtonToolbar
-            onChange={(event) => this.setState({ type: event.target.value })}
           >
             <ToggleButtonGroup
               type='radio'
               name='vehicle-types'
               style={{ display: 'block' }}
+              defaultValue={this.state.type}
               value={this.state.type}
+              onChange={(value) => this.setState({ type: value })}
             >
               <ToggleButton value={'guest'}>Guest</ToggleButton>
               <ToggleButton value={'parking'}>Parking</ToggleButton>

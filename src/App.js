@@ -34,6 +34,9 @@ class App extends React.Component {
   }
 
   render = () => {
+    const { queryString, vehicles } = this.state
+    const isEmptyQueryString = queryString === 0
+
     return (
       <div className='App container'>
         <header className='App-header'>
@@ -52,8 +55,7 @@ class App extends React.Component {
           <br />
           <Row style={{ marginLeft: '5%', marginRight: '5%' }}>
             <VehicleTable removeVehicle={this.removeVehicle} title={'Parking'}
-              vehicles={this.state.queryString.length === 0 ? this.state.vehicles
-                : this.state.vehicles.filter(i => i.plateNumber.includes(this.state.queryString))} />
+              vehicles={isEmptyQueryString ? vehicles : vehicles.filter(i => i.plateNumber.includes(queryString))} />
           </Row>
         </Grid>
       </div>
