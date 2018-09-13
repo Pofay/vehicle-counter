@@ -32,8 +32,8 @@ class App extends React.Component {
     }))
   }
 
-  showMatching (plateNumber) {
-    this.setState({ queryString: plateNumber })
+  showMatching (inputPattern) {
+    this.setState({ queryString: inputPattern.toUpperCase() })
   }
 
   render () {
