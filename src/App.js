@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Row } from 'react-bootstrap'
+import { Col, Grid, Row } from 'react-bootstrap'
 import logo from '../images/logo-cit.jpeg'
 import './App.css'
 import VehicleInputForm from './components/vehicle-input-form'
@@ -38,21 +38,24 @@ class App extends React.Component {
       <div className='App container'>
         <header className='App-header'>
           <img src={logo} className='App-logo' alt='logo' />
-          <h1 className='App-title'>Vehicle Counter Prototype V1</h1>
+          <h3 className='App-title'>Vehicle Counter Prototype V1</h3>
         </header>
-        <div className='App-intro'>
-          <VehicleInputForm onSubmit={this.addVehicle} />
-          <h1>Number of Vehicles Inside Premises: {this.state.vehicles.length}</h1>
+        <Grid className='App-intro'>
+          <Row>
+            <VehicleInputForm onSubmit={this.addVehicle} />
+            <Col xs={6} md={4} style={{ marginTop: '5%' }}>
+              <h3>Vehicles Inside Premises: {this.state.vehicles.length}</h3>
+            </Col>
+          </Row>
+          <hr />
           <SearchArea showMatching={this.showMatching} />
           <br />
-          <Grid>
-            <Row style={{ marginLeft: '5%', marginRight: '5%' }}>
-              <VehicleTable removeVehicle={this.removeVehicle} title={'Parking'}
-                vehicles={this.state.queryString.length === 0 ? this.state.vehicles
-                  : this.state.vehicles.filter(i => i.plateNumber.includes(this.state.queryString))} />
-            </Row>
-          </Grid>
-        </div>
+          <Row style={{ marginLeft: '5%', marginRight: '5%' }}>
+            <VehicleTable removeVehicle={this.removeVehicle} title={'Parking'}
+              vehicles={this.state.queryString.length === 0 ? this.state.vehicles
+                : this.state.vehicles.filter(i => i.plateNumber.includes(this.state.queryString))} />
+          </Row>
+        </Grid>
       </div>
     )
   }

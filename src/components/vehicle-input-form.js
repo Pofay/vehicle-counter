@@ -1,25 +1,25 @@
 import React from 'react'
-import { Button, ControlLabel, FormControl, ButtonToolbar, ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
+import { Col, Button, ControlLabel, FormControl, ButtonToolbar, ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
 
 class VehicleInputForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = { plateNumber: '', type: 'guest' }
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleSubmit (event) {
+  handleSubmit = (event) => {
     event.preventDefault()
     this.props.onSubmit({ plateNumber: this.state.plateNumber, type: this.state.type })
     this.setState({ plateNumber: '', type: 'guest' })
   }
 
-  render () {
+  render = () => {
     return (
-      <div style={{ marginLeft: '2%', marginTop: '2%', marginBottom: '2%' }} className='text-justify'>
+      <Col xs={6} md={6} style={{ marginLeft: '2%', marginTop: '2%', marginBottom: '2%' }} className='text-justify'>
         <form onSubmit={this.handleSubmit}>
           <ControlLabel>Plate Number:</ControlLabel>
           <FormControl
+            style={{ width: '75%' }}
             id='new-platenumber'
             placeholder='Enter Platenumber'
             type='text'
@@ -27,12 +27,14 @@ class VehicleInputForm extends React.Component {
             onChange={(event) => this.setState({ plateNumber: event.target.value })}
             required />
           <ControlLabel style={{ paddingBottom: '0.5%' }}> Vehicle Type: </ControlLabel>
-          <ButtonToolbar onChange={(event) => this.setState({ type: event.target.value })}>
+          <ButtonToolbar
+            onChange={(event) => this.setState({ type: event.target.value })}
+          >
             <ToggleButtonGroup
               type='radio'
               name='vehicle-types'
               style={{ display: 'block' }}
-              defaultValue={this.state.type}
+              value={this.state.type}
             >
               <ToggleButton value={'guest'}>Guest</ToggleButton>
               <ToggleButton value={'parking'}>Parking</ToggleButton>
@@ -41,7 +43,7 @@ class VehicleInputForm extends React.Component {
           </ButtonToolbar>
           <Button style={{ marginTop: '2%' }} type='submit'>Add Vehicle</Button>
         </form>
-      </div>
+      </Col>
     )
   }
 }
