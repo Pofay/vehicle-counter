@@ -12,7 +12,7 @@ const VehicleTableRow = ({ removeVehicle, plateNumber, type }) =>
 
 const VehicleTable = ({ removeVehicle, title, vehicles }) =>
   (
-    <Table responsive striped bordered hover>
+    <Table responsive condensed striped bordered hover>
       <thead className='text-center'>
         <tr>
           <th>Plate Number</th>
