@@ -15,9 +15,6 @@ class App extends React.Component {
       { plateNumber: 'CEH427', type: 'parking' }
     ],
     queryString: '' }
-    // this.addVehicle = this.addVehicle.bind(this)
-    this.removeVehicle = this.removeVehicle.bind(this)
-    this.showMatching = this.showMatching.bind(this)
   }
 
   addVehicle = (vehicleInfo) => {
@@ -26,17 +23,17 @@ class App extends React.Component {
     }))
   }
 
-  removeVehicle (plateNumber) {
+  removeVehicle = (plateNumber) => {
     this.setState((prevState) => ({
       vehicles: prevState.vehicles.filter(v => v.plateNumber !== plateNumber)
     }))
   }
 
-  showMatching (inputPattern) {
+  showMatching = (inputPattern) => {
     this.setState({ queryString: inputPattern.toUpperCase() })
   }
 
-  render () {
+  render = () => {
     return (
       <div className='App container'>
         <header className='App-header'>
@@ -45,6 +42,7 @@ class App extends React.Component {
         </header>
         <div className='App-intro'>
           <VehicleInputForm onSubmit={this.addVehicle} />
+          <h1>Number of Vehicles Inside Premises: {this.state.vehicles.length}</h1>
           <SearchArea showMatching={this.showMatching} />
           <br />
           <Grid>
