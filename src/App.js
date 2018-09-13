@@ -15,12 +15,12 @@ class App extends React.Component {
       { plateNumber: 'CEH427', type: 'parking' }
     ],
     queryString: '' }
-    this.addVehicle = this.addVehicle.bind(this)
+    // this.addVehicle = this.addVehicle.bind(this)
     this.removeVehicle = this.removeVehicle.bind(this)
     this.showMatching = this.showMatching.bind(this)
   }
 
-  addVehicle (vehicleInfo) {
+  addVehicle = (vehicleInfo) => {
     this.setState((prevState) => ({
       vehicles: prevState.vehicles.concat(vehicleInfo)
     }))
