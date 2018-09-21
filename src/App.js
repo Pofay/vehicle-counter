@@ -1,5 +1,6 @@
 import React from 'react'
 import { Col, Grid, Row } from 'react-bootstrap'
+import { contains, filter, equals } from 'ramda'
 import logo from '../images/logo-cit.jpeg'
 import './App.css'
 import VehicleInputForm from './components/vehicle-input-form'
@@ -18,14 +19,16 @@ class App extends React.Component {
   }
 
   addVehicle = (vehicleInfo) => {
-    this.setState((prevState) => ({
-      vehicles: prevState.vehicles.concat(vehicleInfo)
-    }))
+    if (!contains(vehicleInfo, this.state.vehicles)) {
+      this.setState((prevState) => ({
+        vehicles: prevState.vehicles.concat(vehicleInfo)
+      }))
+    }
   }
 
-  removeVehicle = (plateNumber) => {
+  removeVehicle = (vehicle) => {
     this.setState((prevState) => ({
-      vehicles: prevState.vehicles.filter(v => v.plateNumber !== plateNumber)
+      vehicles: filter((v) => !equals(v, vehicle), prevState.vehicles)
     }))
   }
 

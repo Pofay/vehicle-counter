@@ -6,7 +6,7 @@ const VehicleTableRow = ({ removeVehicle, plateNumber, type }) =>
     <tr>
       <td>{plateNumber}</td>
       <td>{type}</td>
-      <td><button onClick={() => removeVehicle(plateNumber)}>Out</button></td>
+      <td><button onClick={() => removeVehicle({ plateNumber: plateNumber, type: type })}>Out</button></td>
     </tr>
   )
 
