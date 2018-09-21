@@ -16,7 +16,7 @@
   },
   "scripts": {
     "start": "babel-node ./tools/devServer.js",
-    "build": "webpack --config webpack.prod.js",
+    "build": "webpack -p --config webpack.prod.js --progress",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint ."
