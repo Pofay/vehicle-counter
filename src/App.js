@@ -1,6 +1,6 @@
 import React from 'react'
 import { Col, Grid, Row } from 'react-bootstrap'
-import { contains, filter, equals } from 'ramda'
+import { contains, reject, equals } from 'ramda'
 import logo from '../images/logo-cit.jpeg'
 import './App.css'
 import VehicleInputForm from './components/vehicle-input-form'
@@ -28,7 +28,7 @@ class App extends React.Component {
 
   removeVehicle = (vehicle) => {
     this.setState((prevState) => ({
-      vehicles: filter((v) => !equals(v, vehicle), prevState.vehicles)
+      vehicles: reject((v) => equals(v, vehicle), prevState.vehicles)
     }))
   }
 
