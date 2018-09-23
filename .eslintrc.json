@@ -1,4 +1,11 @@
 {
     "extends": ["standard", "standard-react"],
-    "env": "jest"
+    "parser": "babel-eslint",
+    "rules":{
+        "strict": 0
+    },
+    "env": {
+        "jest": true,
+        "node": true
+    }
 }

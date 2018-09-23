@@ -1,72 +1,11 @@
 import React from 'react'
-import { Col, Grid, Row, Button } from 'react-bootstrap'
+import { Col, Grid, Row } from 'react-bootstrap'
+import { contains, reject, equals } from 'ramda'
 import logo from '../images/logo-cit.jpeg'
 import './App.css'
-
-class VehicleInputArea extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = { plateNumber: '', type: 'guest' }
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-  handleSubmit (event) {
-    event.preventDefault()
-    this.props.onSubmit({ plateNumber: this.state.plateNumber, type: this.state.type })
-    this.setState({ plateNumber: '', type: 'guest' })
-  }
-
-  render () {
-    return (
-      <div style={{ marginLeft: '5%', marginBottom: '2%' }} className='text-justify'>
-        <form onSubmit={this.handleSubmit}>
-          <label>Plate Number:</label>
-          <input type='text'
-            id='new-platenumber'
-            value={this.state.plateNumber}
-            onChange={(event) => this.setState({ plateNumber: event.target.value })}
-            required />
-          <div>
-            <label> Vehicle Type:</label>
-            <select title={'Vehicle Types'}
-              id='vehicle-type'
-              value={this.state.type}
-              onChange={(event) => this.setState({ type: event.target.value })}>
-              <option value='guest'>Guest</option>
-              <option value='dropoff'>Drop Off</option>
-              <option value='parking'>Parking</option>
-            </select>
-          </div>
-          <Button type='submit'>Add Vehicle</Button>
-        </form>
-      </div>
-    )
-  }
-}
-
-const SearchArea = (props) =>
-  (
-    <div>
-      <label style={{ marginRight: '5px' }}> Search Plate Number: </label>
-      <input onChange={(event) => props.showMatching(event.target.value)}id='search-platenumber' />
-    </div>
-  )
-
-const VehicleTableRow = ({ removeVehicle, plateNumber }) =>
-  (
-    <Row>
-      <span style={{ marginRight: '20%', borderStyle: 'solid' }}>{plateNumber}</span>
-      <button onClick={() => removeVehicle(plateNumber)}>Out</button>
-    </Row>
-  )
-
-const VehicleColumn = ({ removeVehicle, title, vehicles }) =>
-  (
-    <Col sm={6} md={4}>
-      <div style={{ backgroundColor: '#CCCCFF', width: '100%' }} className='text-center'> {title} </div>
-      {vehicles.map((v, i) => <VehicleTableRow removeVehicle={removeVehicle} key={i} {...v} />)}
-    </Col>
-  )
+import VehicleInputForm from './components/vehicle-input-form'
+import SearchArea from './components/search-area'
+import VehicleTable from './components/vehicle-table'
 
 class App extends React.Component {
   constructor (props) {
@@ -77,55 +16,51 @@ class App extends React.Component {
       { plateNumber: 'CEH427', type: 'parking' }
     ],
     queryString: '' }
-    this.addVehicle = this.addVehicle.bind(this)
-    this.removeVehicle = this.removeVehicle.bind(this)
-    this.showMatching = this.showMatching.bind(this)
   }
 
-  addVehicle (vehicleInfo) {
+  addVehicle = (vehicleInfo) => {
+    if (!contains(vehicleInfo, this.state.vehicles)) {
+      this.setState((prevState) => ({
+        vehicles: prevState.vehicles.concat(vehicleInfo)
+      }))
+    }
+  }
+
+  removeVehicle = (vehicle) => {
     this.setState((prevState) => ({
-      vehicles: prevState.vehicles.concat(vehicleInfo)
+      vehicles: reject((v) => equals(v, vehicle), prevState.vehicles)
     }))
   }
 
-  removeVehicle (plateNumber) {
-    console.log(plateNumber)
-    this.setState((prevState) => ({
-      vehicles: prevState.vehicles.filter(v => v.plateNumber !== plateNumber)
-    }))
+  showMatching = (inputPattern) => {
+    this.setState({ queryString: inputPattern.toUpperCase() })
   }
 
-  showMatching (plateNumber) {
-    this.setState({ queryString: plateNumber })
-  }
+  render = () => {
+    const { queryString, vehicles } = this.state
+    const isEmptyQueryString = queryString === 0
 
-  render () {
     return (
       <div className='App container'>
         <header className='App-header'>
           <img src={logo} className='App-logo' alt='logo' />
-          <h1 className='App-title'>Vehicle Counter Prototype V1</h1>
+          <h3 className='App-title'>Vehicle Counter Prototype V1</h3>
         </header>
-        <div className='App-intro'>
-          <VehicleInputArea onSubmit={this.addVehicle} />
+        <Grid className='App-intro'>
+          <Row>
+            <VehicleInputForm onSubmit={this.addVehicle} />
+            <Col xs={6} md={4} style={{ marginTop: '5%' }}>
+              <h3>Vehicles Inside Premises: {this.state.vehicles.length}</h3>
+            </Col>
+          </Row>
+          <hr />
           <SearchArea showMatching={this.showMatching} />
           <br />
-          <div>
-            <Grid>
-              <Row style={{ marginLeft: '5%', marginRight: '5%' }}>
-                <VehicleColumn removeVehicle={this.removeVehicle} title={'Guest'}
-                  vehicles={this.state.queryString.length === 0 ? this.state.vehicles.filter(i => i.type === 'guest')
-                    : this.state.vehicles.filter(i => i.type === 'guest').filter(i => i.plateNumber.includes(this.state.queryString))} />
-                <VehicleColumn removeVehicle={this.removeVehicle} title={'Drop Off'}
-                  vehicles={this.state.queryString.length === 0 ? this.state.vehicles.filter(i => i.type === 'dropoff')
-                    : this.state.vehicles.filter(i => i.type === 'dropoff').filter(i => i.plateNumber.includes(this.state.queryString))} />
-                <VehicleColumn removeVehicle={this.removeVehicle} title={'Parking'}
-                  vehicles={this.state.queryString.length === 0 ? this.state.vehicles.filter(i => i.type === 'parking')
-                    : this.state.vehicles.filter(i => i.type === 'parking').filter(i => i.plateNumber.includes(this.state.queryString))} />
-              </Row>
-            </Grid>
-          </div>
-        </div>
+          <Row style={{ marginLeft: '5%', marginRight: '5%' }}>
+            <VehicleTable removeVehicle={this.removeVehicle} title={'Parking'}
+              vehicles={isEmptyQueryString ? vehicles : vehicles.filter(i => i.plateNumber.includes(queryString))} />
+          </Row>
+        </Grid>
       </div>
     )
   }
